@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>P2 English - Preposition Space Detectives</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --bg: #e0f2fe;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      color: #64748b;
+    }
+
+    /* Progress Bar */
+    .nav-steps {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      background: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    .step-btn {
+      border: none;
+      background: #e2e8f0;
+      color: #64748b;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .step-btn.active {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    /* Container Area */
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 800px;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page {
+      display: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* Buttons & Sounds */
+    .sound-btn {
+      background: #ec4899;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 10px;
+      box-shadow: 0 4px 0 #be185d;
+      transition: transform 0.1s;
+    }
+
+    .sound-btn:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .phonics-card {
+      border: 3px solid #cbd5e1;
+      border-radius: 18px;
+      padding: 20px;
+      background: #fafafa;
+      transition: all 0.3s;
+    }
+
+    .phonics-card:hover {
+      border-color: var(--secondary);
+      transform: translateY(-5%;
+    }
+
+    .word-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .phonics-breakdown {
+      font-size: 1.2rem;
+      color: #059669;
+      margin-bottom: 12px;
+    }
+
+    .vowel-highlight {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    /* Classroom Spatial Graphic */
+    .classroom-stage {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      background: #f8fafc;
+      border: 3px dashed #cbd5e1;
+      border-radius: 16px;
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .desk {
+      width: 90px;
+      height: 70px;
+      background: #fde047;
+      border: 3px solid #ca8a04;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      position: absolute;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .student-icon {
+      font-size: 2rem;
+    }
+
+    /* Sentence Builder */
+    .word-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .word-tile {
+      background: #3b82f6;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #1d4ed8;
+    }
+
+    .drop-zone {
+      min-height: 60px;
+      border: 3px dashed var(--primary);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: #e0e7ff;
+    }
+
+    .highlight-and {
+      background: #fef08a;
+      color: #854d0e;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    /* Next / Control Buttons */
+    .action-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #047857;
+      margin-top: 15px;
+    }
+
+    .action-btn:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🔍 Preposition Space Detectives</h1>
+    <p class="subtitle">Longman 2A Chapter 4: in front of / behind / between</p>
+  </header>
+
+  <!-- Step Navigation -->
+  <div class="nav-steps">
+    <button class="step-btn active" onclick="showPage(1)">1. Phonics</button>
+    <button class="step-btn" onclick="showPage(2)">2. Discover</button>
+    <button class="step-btn" onclick="showPage(3)">3. Build</button>
+    <button class="step-btn" onclick="showPage(4)">4. Quiz</button>
+  </div>
+
+  <div class="container">
+
+    <!-- PAGE 1: Phonics & Sounds -->
+    <div id="page1" class="page active">
+      <h2>Step 1: Phonics & Pronunciation Lab</h2>
+      <p>Click the cards to hear the Phonics decoding!</p>
+      
+      <div class="card-grid">
+        <div class="phonics-card" onclick="speak('behind. be, hind. Rhymes with kind!')">
+          <div class="word-title">behind</div>
+          <div class="phonics-breakdown">be - h<span class="vowels">i</span>nd</div>
+          <p>🔊 /bɪ/ + /ha<span class="vowel-highlight">ɪ</span>nd/</p>
+          <small style="color: #64748b;">(Rhymes with <b>k-ind</b>!)</small>
+        </div>
+
+        <div class="phonics-card" onclick="speak('between. be, tween. Stretch your smile for ee!')">
+          <div class="word-title">between</div>
+          <div class="phonics-breakdown">be - tw<span class="vowel-highlight">ee</span>n</div>
+          <p>🔊 /bɪ/ + /tw<span class="vowel-highlight">iː</span>n/</p>
+          <small style="color: #64748b;">(Long <b>ee</b> sound!)</small>
+        </div>
+
+        <div class="phonics-card" onclick="speak('in front of. Three words together!')">
+          <div class="word-title">in front of</div>
+          <div class="phonics-breakdown"><span class="vowel-highlight">i</span>n fr<span class="vowel-highlight">o</span>nt <span class="vowel-highlight">o</span>f</div>
+          <p>🔊 3-Word Chunk 👏</p>
+          <small style="color: #64748b;">(Don't forget <b>in</b> and <b>of</b>!)</small>
+        </div>
+      </div>
+      <br>
+      <button class="action-btn" onclick="showPage(2)">Go to Step 2 ➔</button>
+    </div>
+
+    <!-- PAGE 2: Guided Spatial Discovery -->
+    <div id="page2" class="page">
+      <h2>Step 2: Classroom Seating Discovery</h2>
+      <p>Click a button to move Gary in the classroom!</p>
+
+      <div class="classroom-stage" id="stage">
+        <div class="desk" id="deskJason" style="left: 45%; top: 35%;">
+          <span class="student-icon">👦</span>
+          <span>Jason</span>
+        </div>
+        <div class="desk" id="deskGary" style="left: 45%; top: 70%;">
+          <span class="student-icon">🧑</span>
+          <span>Gary</span>
+        </div>
+        <div class="desk" id="deskGrace" style="left: 15%; top: 45%; display:none;">
+          <span class="student-icon">👧</span>
+          <span>Grace</span>
+        </div>
+        <div class="desk" id="deskDanny" style="left: 75%; top: 45%; display:none;">
+          <span class="student-icon">👦🏽</span>
+          <span>Danny</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="sound-btn" onclick="positionGary('front')">Gary sits in front of Jason</button>
+        <button class="sound-btn" onclick="positionGary('behind')">Gary sits behind Jason</button>
+        <button class="sound-btn" onclick="positionGary('between')">Gary sits between Grace & Danny</button>
+      </div>
+
+      <p id="sentenceBox" style="font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-top:15px;">
+        Gary sits in front of Jason.
+      </p>
+      <br>
+      <button class="action-btn" onclick="showPage(3)">Go to Step 3 ➔</button>
+    </div>
+
+    <!-- PAGE 3: Step-by-Step Sentence Builder -->
+    <div id="page3" class="page">
+      <h2>Step 3: Sentence Builder</h2>
+      <p>Tap words in order to build: <b>"Gary sits between Grace AND Danny."</b></p>
+      
+      <div class="drop-zone" id="userSentence"></div>
+
+      <div class="word-pool" id="wordPool">
+        <div class="word-tile" onclick="addWord('Gary')">Gary</div>
+        <div class="word-tile" onclick="addWord('sits')">sits</div>
+        <div class="word-tile" onclick="addWord('between')">between</div>
+        <div class="word-tile" onclick="addWord('Grace')">Grace</div>
+        <div class="word-tile" style="background:#eab308;" onclick="addWord('and')">and</div>
+        <div class="word-tile" onclick="addWord('Danny.')">Danny.</div>
+      </div>
+
+      <button class="sound-btn" style="background:#64748b; box-shadow:none;" onclick="resetSentence()">Clear</button>
+      <button class="action-btn" onclick="checkSentence()">Check Sentence ✔</button>
+    </div>
+
+    <!-- PAGE 4: Quiz Game -->
+    <div id="page4" class="page">
+      <h2>Step 4: Detective Quiz</h2>
+      <p id="quizQuestion" style="font-size:1.3rem; margin-bottom:15px;">
+        1. Gary sits _______ Grace <b>and</b> Danny.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:10px; width: 100%; max-width: 350px; margin: 0 auto;">
+        <button class="sound-btn" style="background:#3b82f6; box-shadow: 0 4px 0 #1d4ed8;" onclick="answerQuiz('wrong')">in front of</button>
+        <button class="sound-btn" style="background:#3b82f6; box-shadow: 0 4px 0 #1d4ed8;" onclick="answerQuiz('correct')">between</button>
+        <button class="sound-btn" style="background:#3b82f6; box-shadow: 0 4px 0 #1d4ed8;" onclick="answerQuiz('wrong')">behind</button>
+      </div>
+
+      <div id="quizResult" style="margin-top:20px; font-size:1.5rem; font-weight:bold;"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // Web Speech API for TTS Audio
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // Page Switching
+    function showPage(pageNum) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.step-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById('page' + pageNum).classList.add('active');
+      document.querySelectorAll('.step-btn')[pageNum - 1].classList.add('active');
+
+      if(pageNum === 1) speak("Step 1: Phonics and Pronunciation Lab");
+      if(pageNum === 2) speak("Step 2: Classroom Seating Discovery");
+      if(pageNum === 3) speak("Step 3: Sentence Builder");
+      if(pageNum === 4) speak("Step 4: Detective Quiz");
+    }
+
+    // Spatial Animation
+    function positionGary(pos) {
+      const gary = document.getElementById('deskGary');
+      const jason = document.getElementById('deskJason');
+      const grace = document.getElementById('deskGrace');
+      const danny = document.getElementById('deskDanny');
+      const box = document.getElementById('sentenceBox');
+
+      if (pos === 'front') {
+        grace.style.display = 'none';
+        danny.style.display = 'none';
+        jason.style.display = 'flex';
+        jason.style.top = '15%';
+        gary.style.top = '65%';
+        gary.style.left = '45%';
+        box.innerHTML = 'Gary sits <b>in front of</b> Jason.';
+        speak('Gary sits in front of Jason.');
+      } else if (pos === 'behind') {
+        grace.style.display = 'none';
+        danny.style.display = 'none';
+        jason.style.display = 'flex';
+        jason.style.top = '65%';
+        gary.style.top = '15%';
+        gary.style.left = '45%';
+        box.innerHTML = 'Gary sits <b>behind</b> Jason.';
+        speak('Gary sits behind Jason.');
+      } else if (pos === 'between') {
+        jason.style.display = 'none';
+        grace.style.display = 'flex';
+        danny.style.display = 'flex';
+        grace.style.left = '15%'; grace.style.top = '40%';
+        danny.style.left = '75%'; danny.style.top = '40%';
+        gary.style.left = '45%'; gary.style.top = '40%';
+        box.innerHTML = 'Gary sits <b>between</b> Grace <span class="highlight-and">AND</span> Danny.';
+        speak('Gary sits between Grace and Danny.');
+      }
+    }
+
+    // Sentence Builder Logic
+    let currentSentence = [];
+    function addWord(word) {
+      currentSentence.push(word);
+      document.getElementById('userSentence').innerHTML = currentSentence.map(w => 
+        `<span class="word-tile">${w}</span>`
+      ).join('');
+      speak(word);
+    }
+
+    function resetSentence() {
+      currentSentence = [];
+      document.getElementById('userSentence').innerHTML = '';
+    }
+
+    function checkSentence() {
+      const target = "Gary sits between Grace and Danny.";
+      const userStr = currentSentence.join(' ');
+      if (userStr === target) {
+        speak("Bingo! Excellent job!");
+        alert("🎉 Excellent! 'Gary sits between Grace and Danny.' is 100% Correct!");
+      } else {
+        speak("Try again!");
+        alert("Oops! Remember to put 'between' before Grace AND Danny!");
+      }
+    }
+
+    // Quiz System
+    function answerQuiz(status) {
+      const res = document.getElementById('quizResult');
+      if(status === 'correct') {
+        res.style.color = '#10b981';
+        res.innerHTML = "🌟 Bingo! Correct answer: between!";
+        speak("Bingo! Correct answer!");
+      } else {
+        res.style.color = '#ef4444';
+        res.innerHTML = "❌ Try again! Notice the word 'and'!";
+        speak("Try again!");
+      }
+    }
+  </script>
+</body>
+</html>
